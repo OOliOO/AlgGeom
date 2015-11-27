@@ -12,7 +12,7 @@
 map<string,string> type;
 map<string,Pol> polynomials;
 
-void init_std_polynomials(){
+void _init(){
     type["x"]="polynomial";
     type["y"]="polynomial";
     type["z"]="polynomial";
@@ -26,18 +26,8 @@ void init_std_polynomials(){
     polynomials["u"].addMonomial(Tuple({0,0,0,1,0,0}),1);
     polynomials["v"].addMonomial(Tuple({0,0,0,0,1,0}),1);
     polynomials["w"].addMonomial(Tuple({0,0,0,0,0,1}),1);
-}
-
-void init_std_operators(){
-    type["+"]="op";
-    type["-"]="op";
-    type["*"]="op";
-    type["("]="op";
-    type[")"]="op";
-    type[","]="op";
-    type["="]="op";
-    type["<"]="op";
-    type[">"]="op";
+    
+    type["quit"]="command";
 }
 
 bool doubleChar(char c){
@@ -220,8 +210,7 @@ Pol evalP(deque<string> q){
 }
 
 void startUI(){
-    init_std_polynomials();
-    init_std_operators();
+    _init();
 
     while(1){
         cout<<"> ";
@@ -234,6 +223,13 @@ void startUI(){
         deque<string> q=breakIntoElements(s);
 
         try{
+            if(q.size()&&type[q.front()]=="command"){
+                if(q.front()=="quit"){
+                    cout<<"lol, ragequit..."<<endl;
+                    return;
+                }
+            }
+            
             if(q.size()){
                 string tmp=q.front();
                 q.pop_front();
