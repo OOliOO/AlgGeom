@@ -1,6 +1,7 @@
 #ifndef UI_HPP
 #define UI_HPP
 #include <queue>
+#include <set>
 #include "mpolynomial.hpp"
 #include "mpoly_alg.hpp"
 #include "ideal.hpp"
@@ -14,6 +15,7 @@
 
 map<string,string> type;
 map<string,Pol> polynomials;
+set<string> con;
 
 void _init(){
     type["x"]="polynomial";
@@ -32,6 +34,23 @@ void _init(){
     
     type["quit"]="command";
     type["exit"]="command";
+    
+    con.insert("x");
+    con.insert("y");
+    con.insert("z");
+    con.insert("u");
+    con.insert("v");
+    con.insert("w");
+    con.insert("+");
+    con.insert("-");
+    con.insert("*");
+    con.insert("(");
+    con.insert(")");
+    con.insert(",");
+    con.insert("=");
+    con.insert("<");
+    con.insert(">");
+    con.insert("^");
 }
 
 bool doubleChar(char c){
@@ -245,7 +264,11 @@ void startUI(){
 
                 if(q.size()&&q.front()=="="){
                     q.pop_front();
-
+                    
+                    if(con.count(tmp)||doubleChar(tmp[0])){
+                        throw "Trying to change value of constant expression \'" + tmp + "\'.";
+                    }
+                    
                     if(q.size()&&q.front()=="<"){
                         type[tmp]="ideal";
                     }else{
