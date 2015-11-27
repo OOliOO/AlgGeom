@@ -5,6 +5,9 @@
 #include "mpoly_alg.hpp"
 #include "ideal.hpp"
 
+#include <readline/readline.h>
+#include <readline/history.h>
+
 #define Pol MPolynomial<6, grlex<6>>
 #define parse parse<6, grlex<6>>
 #define Tuple Tuple<6>
@@ -28,6 +31,7 @@ void _init(){
     polynomials["w"].addMonomial(Tuple({0,0,0,0,0,1}),1);
     
     type["quit"]="command";
+    type["exit"]="command";
 }
 
 bool doubleChar(char c){
@@ -213,10 +217,10 @@ void startUI(){
     _init();
 
     while(1){
-        cout<<"> ";
+        
         string s;
-        char ln[1024];
-        cin.getline(ln,1024);
+        char* ln=readline("> ");
+        add_history(ln);
         s=ln;
         s=rmSpace(s);
 
@@ -226,6 +230,11 @@ void startUI(){
             if(q.size()&&type[q.front()]=="command"){
                 if(q.front()=="quit"){
                     cout<<"lol, ragequit..."<<endl;
+                    return;
+                }
+                
+                if(q.front()=="exit"){
+                    cout<<"exiting..."<<endl;
                     return;
                 }
             }

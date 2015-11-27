@@ -1,2 +1,2 @@
 #!/bin/bash
-g++ main.cpp polynomial.cpp -o AlgGeom -O3 --std=c++11
+g++ main.cpp polynomial.cpp -o AlgGeom -O3 --std=c++11 -lreadline
